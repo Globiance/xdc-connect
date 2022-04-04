@@ -4,11 +4,17 @@ export const LOADERS = {
   Privatekey: "privatekey",
   MetaMask: "metamask",
   DcentInApp: "dcent-inapp",
+  WalletConnect: "wallet-connect",
 };
 
-export const VALID_CHAINS = [50, 51, 551];
+export const VALID_CHAINS = [1, 4, 421611, 137, 80001, 50, 51, 551];
 
 export const NETWORK_NAME = {
+  1: "",
+  4: "",
+  421611: "",
+  137: "",
+  80001: "",
   50: "XinFin",
   51: "Apothem",
   551: "XDC Devnet",
@@ -33,3 +39,6 @@ export const DEFAULT_CHAIN_ID = 50;
 export const DEFAULT_PROVIDER = HTTP_PROVIDER[VALID_CHAINS[0]];
 
 export const EXPLORER = CHAIN_DATA[DEFAULT_CHAIN_ID];
+
+export const XDC_PAY = "xdc_pay";
+export const WALLET_CONNECT = "walletconnect";
