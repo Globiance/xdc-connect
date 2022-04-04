@@ -54,6 +54,7 @@ export interface WalletConnectProps {
   rpcProvider?: string;
   wsProvider?: string;
   gasMultiplier?: number;
+  termsOfService?:any;
 }
 
 export class XdcConnect extends React.Component<WalletConnectProps, any> {}

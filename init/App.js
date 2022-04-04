@@ -30,7 +30,7 @@ function App() {
       <XdcConnect
         addToastContainer={true}
         // showButton={tr}
-        displayType="grid"
+        displayType="row"
         btnClass={
           wallet.connected
             ? "btn btn-rounded btn-success"
@@ -55,6 +55,13 @@ function App() {
           });
           setwallet(wallet);
         }}
+        termsOfService={
+          <>
+            By connecting a wallet, you agree to Globiance's Terms of Service
+            and acknowledge that you have read and understand our rules and
+            regulations.
+          </>
+        }
         onDisconnect={(wallet) => {
           console.log("user connected disconnect", wallet);
           setwallet(wallet);

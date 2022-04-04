@@ -48,6 +48,7 @@ XdcConnect.propTypes = {
   rpcProvider: PropTypes.string,
   wsProvider: PropTypes.string,
   gasMultiplier: PropTypes.number,
+  termsOfService:PropTypes.any
 };
 
 XdcConnect.defaultProps = {
