@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 import Keystore from "./Keystore";
 import PrivateKey from "./PrivateKey";
 import { initXdc3 } from "../../wallets/xinpay";
+import { initMetamask } from "../../wallets/metamask";
 import { initWalletConnect } from "../../wallets/walletConnect";
 import { initDcent } from "../../wallets/dcentInAppBrowser";
 
+import MetamaskLogo from "../../assets/img/wallets/metamask-logo.png";
 import XinpayLogo from "../../assets/img/wallets/xinpay-logo.png";
 import WalletConnectLogo from "../../assets/img/wallets/walletConnect-logo.png";
 import PrivateKeyLogo from "../../assets/img/wallets/privatekey-logo.png";
@@ -142,6 +144,19 @@ class WalletConnect extends React.Component {
                   </div>
                   <div className="wallet-icon">
                     <img src={XinpayLogo} alt="Icon" />
+                  </div>
+                </button>
+              ) : (
+                ""
+              )}
+
+              {this.enabledProviders.includes(LOADERS.Metamask) ? (
+                <button onClick={initMetamask} className="wallect-connect-btn">
+                  <div className="wallet-name">
+                    <h4>Metamask</h4>
+                  </div>
+                  <div className="wallet-icon">
+                    <img src={MetamaskLogo} alt="Icon" />
                   </div>
                 </button>
               ) : (

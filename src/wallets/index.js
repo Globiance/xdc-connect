@@ -5,6 +5,7 @@ import * as xinpay from "./xinpay";
 import * as account from "./account";
 import * as dcentInApp from "./dcentInAppBrowser";
 import * as walletConnect from "./walletConnect";
+import * as metamask from "./metamask";
 
 import store from "../redux/store";
 import { LOADERS, DEFAULT_PROVIDER, XDC_PAY } from "../helpers/constant";
@@ -22,6 +23,8 @@ function GetFuncFromLoader(loader) {
       return dcentInApp;
     case LOADERS.WalletConnect:
       return walletConnect;
+    case LOADERS.Metamask:
+      return metamask;
     default:
       return xinpay;
   }
@@ -138,4 +141,4 @@ export const Disconnect = () => {
   xinpay.Disconnect();
   const loader = store.getState().wallet.loader;
   return GetFuncFromLoader(loader).Disconnect();
-}
+};

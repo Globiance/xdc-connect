@@ -77,20 +77,20 @@ export async function initXdc3() {
       return store.dispatch(actions.WalletDisconnected());
     }
 
-      if (currentProvider !== "xinpay") {
-        toast(
-          <div>
-            XDCPay not available in the browser. Please refer{" "}
-            <a href="https://chrome.google.com/webstore/detail/xdcpay/bocpokimicclpaiekenaeelehdjllofo?hl=en">
-              here
-            </a>
-          </div>,
-          {
-            autoClose: false,
-          }
-        );
-        return store.dispatch(actions.WalletDisconnected());
-      }
+    if (currentProvider !== "xinpay") {
+      toast(
+        <div>
+          XDCPay not available in the browser. Please refer{" "}
+          <a href="https://chrome.google.com/webstore/detail/xdcpay/bocpokimicclpaiekenaeelehdjllofo?hl=en">
+            here
+          </a>
+        </div>,
+        {
+          autoClose: false,
+        }
+      );
+      return store.dispatch(actions.WalletDisconnected());
+    }
 
     const isLocked = await WithTimeout(IsLocked, { timeout: 2000 });
     if (isLocked === true) {
@@ -240,8 +240,8 @@ export async function GetCurrentProvider() {
 
   if (window.web3.currentProvider.isMetaMask) {
     const chainId = await GetChainId();
-    if ([1, 4, 421611, 137, 80001, 50, 51, 551].includes(chainId))
-			return "xinpay";
+    if ([1, 50, 51, 551].includes(chainId))
+      return "xinpay";
     return "metamask";
   }
 

@@ -26,6 +26,7 @@ export const NetworkValidation = (store) => (next) => (action) => {
         if (VALID_CHAINS.includes(chain_id)) {
           store.dispatch(actions.NetworkValid());
         } else {
+          console.log("invalid network");
           store.dispatch(actions.NetworkInValid());
         }
       }

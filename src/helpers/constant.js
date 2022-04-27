@@ -2,7 +2,7 @@ export const LOADERS = {
   Xinpay: "xinpay",
   Keystore: "keystore",
   Privatekey: "privatekey",
-  MetaMask: "metamask",
+  Metamask: "metamask",
   DcentInApp: "dcent-inapp",
   WalletConnect: "wallet-connect",
 };
@@ -41,4 +41,5 @@ export const DEFAULT_PROVIDER = HTTP_PROVIDER[VALID_CHAINS[0]];
 export const EXPLORER = CHAIN_DATA[DEFAULT_CHAIN_ID];
 
 export const XDC_PAY = "xdc_pay";
+export const METAMASK = "metamask";
 export const WALLET_CONNECT = "walletconnect";
