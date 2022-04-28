@@ -151,7 +151,10 @@ class WalletConnect extends React.Component {
               )}
 
               {this.enabledProviders.includes(LOADERS.Metamask) ? (
-                <button onClick={initMetamask} className="wallect-connect-btn">
+                <button
+                  onClick={() => initMetamask(this.defaultChainId)}
+                  className="wallect-connect-btn"
+                >
                   <div className="wallet-name">
                     <h4>Metamask</h4>
                   </div>

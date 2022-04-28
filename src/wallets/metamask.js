@@ -11,6 +11,7 @@ import {
   WALLET_CONNECT,
   METAMASK,
   DEFAULT_CHAIN_ID,
+  NETWORK_NAME,
 } from "../helpers/constant";
 
 import * as actions from "../actions";
@@ -40,7 +41,7 @@ export async function GetChainId() {
   return parseInt(chainId);
 }
 
-export async function initMetamask() {
+export async function initMetamask(chainId = DEFAULT_CHAIN_ID) {
   try {
     const link = GetLink();
 
@@ -92,7 +93,6 @@ export async function initMetamask() {
       .then(async (accounts) => {
         try {
           // connected
-          const chainId = store.getState().wallet.chain_id || DEFAULT_CHAIN_ID;
           const chainIdHex = Xdc3.utils.toHex(chainId);
 
           const swth = await switchToXdc(chainIdHex);
@@ -175,16 +175,34 @@ export function SendTransaction(tx) {
     tx.gasPrice = Xdc3.utils.toHex(tx.gasPrice);
   }
 
-  return window.ethereum.request({
-    method: "eth_sendTransaction",
-    params: [tx],
+  return new Promise((resolve, reject) => {
+    window.ethereum
+      .request({
+        method: "eth_sendTransaction",
+        params: [tx],
+      })
+      .then((hash) => {
+        resolve({ transactionHash: hash });
+      })
+      .catch((e) => {
+        reject(e);
+      });
   });
 }
 
 export function CallTransaction(tx) {
-  return window.ethereum.request({
-    method: "eth_call",
-    params: [tx],
+  return new Promise((resolve, reject) => {
+    window.ethereum
+      .request({
+        method: "eth_call",
+        params: [tx],
+      })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((e) => {
+        reject(e);
+      });
   });
 }
 
@@ -220,8 +238,8 @@ async function switchToXdc(chainId = "0x32") {
           params: [
             {
               chainId,
-              chainName: "Xinfin Network",
-              rpcUrls: ["https://rpc.xinfin.network"] /* ... */,
+              chainName: NETWORK_NAME[parseInt(chainId)],
+              rpcUrls: [HTTP_PROVIDER[parseInt(chainId)]] /* ... */,
             },
           ],
         });
@@ -249,7 +267,6 @@ function GetLink() {
 
   return null;
 }
-
 
 export async function Disconnect() {
   const provider = await GetProvider();
