@@ -9,11 +9,7 @@ export const NetworkValidation = (store) => (next) => (action) => {
   next(action);
 
   if (
-    [
-      types.WALLET_CONNECTED,
-      types.WALLET_CHAIN_CHANGED,
-      types.WALLET_ADDRESS_CHANGED,
-    ].includes(action.type)
+    [types.WALLET_CONNECTED, types.WALLET_ADDRESS_CHANGED].includes(action.type)
   ) {
     const { address } = action.payload;
     if (_.isUndefined(address)) store.dispatch(actions.WalletDisconnected());
@@ -30,6 +26,17 @@ export const NetworkValidation = (store) => (next) => (action) => {
           store.dispatch(actions.NetworkInValid());
         }
       }
+    }
+  }
+
+  if (action.type === types.WALLET_CHAIN_CHANGED) {
+    let { chain_id } = action.payload;
+
+    if (VALID_CHAINS.includes(chain_id)) {
+      store.dispatch(actions.NetworkValid());
+    } else {
+      console.log("invalid network");
+      store.dispatch(actions.NetworkInValid());
     }
   }
 };

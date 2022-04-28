@@ -8,7 +8,11 @@ import * as walletConnect from "./walletConnect";
 import * as metamask from "./metamask";
 
 import store from "../redux/store";
-import { LOADERS, DEFAULT_PROVIDER, XDC_PAY } from "../helpers/constant";
+import {
+  LOADERS,
+  DEFAULT_PROVIDER,
+  CONNECTION_STATE,
+} from "../helpers/constant";
 import { BUILD_TX_LINK, IsJsonRpcError } from "../helpers/crypto";
 
 function GetFuncFromLoader(loader) {
@@ -137,8 +141,22 @@ export const CallTransaction = (tx) => {
 };
 
 export const Disconnect = () => {
-  localStorage.removeItem(XDC_PAY);
-  xinpay.Disconnect();
   const loader = store.getState().wallet.loader;
   return GetFuncFromLoader(loader).Disconnect();
+};
+
+export const SyncConnectionState = (chainId = 50) => {
+  try {
+    const state = localStorage.getItem(CONNECTION_STATE);
+    if (!state) {
+      return;
+    }
+
+    const stateObj = JSON.parse(state);
+
+    if (stateObj.loader === LOADERS.Xinpay) xinpay.initXdc3();
+    if (stateObj.loader === LOADERS.Metamask) metamask.initMetamask(chainId);
+  } catch (e) {
+    console.log(e);
+  }
 };

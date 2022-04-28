@@ -9,6 +9,7 @@ import {
   LOADERS,
   XDC_PAY,
   WALLET_CONNECT,
+  CONNECTION_STATE,
 } from "../helpers/constant";
 
 import * as actions from "../actions";
@@ -195,6 +196,7 @@ export function _initListerner() {
     const accounts = await xdc3.eth.getAccounts();
     const chain_id = await xdc3.eth.getChainId();
     addresses = accounts;
+
     return store.dispatch(
       actions.WalletConnected({
         address: accounts[0],
@@ -240,8 +242,7 @@ export async function GetCurrentProvider() {
 
   if (window.web3.currentProvider.isMetaMask) {
     const chainId = await GetChainId();
-    if ([1, 50, 51, 551].includes(chainId))
-      return "xinpay";
+    if ([1, 50, 51, 551].includes(chainId)) return "xinpay";
     return "metamask";
   }
 

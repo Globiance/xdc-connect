@@ -17,7 +17,7 @@ import {
 import * as actions from "../actions";
 import store from "../redux/store";
 import { toast } from "react-toastify";
-import { GetBrowser, IsChrome, IsFirefox } from "../helpers/miscellaneous";
+import { GetBrowser } from "../helpers/miscellaneous";
 
 export function IsXdc3Supported() {
   return Boolean(window.ethereum);
@@ -67,7 +67,6 @@ export async function initMetamask(chainId = DEFAULT_CHAIN_ID) {
           autoClose: false,
         }
       );
-
       return store.dispatch(actions.WalletDisconnected());
     }
 
@@ -148,9 +147,33 @@ export async function initMetamask(chainId = DEFAULT_CHAIN_ID) {
       store.dispatch(actions.NetworkChanged(parseInt(chainId)));
     });
 
+    window.ethereum.on("connect", async (chainIdHex) => {
+      try {
+        const chain_id = parseInt(chainIdHex);
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+
+        if (!accounts || accounts.length === 0) {
+          console.log("no accounts connected");
+          return store.dispatch(actions.WalletDisconnected());
+        }
+
+        return store.dispatch(
+          actions.WalletConnected({
+            address: accounts[0],
+            chain_id,
+            loader: LOADERS.Metamask,
+            explorer: CHAIN_DATA[chain_id],
+          })
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
     window.ethereum.on("disconnect", (data) => {
       console.log("disconnect", data);
-      localStorage.removeItem(METAMASK);
       return store.dispatch(actions.WalletDisconnected());
     });
   } catch (e) {

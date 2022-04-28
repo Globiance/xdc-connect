@@ -7,7 +7,7 @@ export const LOADERS = {
   WalletConnect: "wallet-connect",
 };
 
-export const VALID_CHAINS = [1, 4, 421611, 137, 80001, 50, 51, 551];
+export const VALID_CHAINS = [50, 51, 551];
 
 export const NETWORK_NAME = {
   1: "",
@@ -43,3 +43,5 @@ export const EXPLORER = CHAIN_DATA[DEFAULT_CHAIN_ID];
 export const XDC_PAY = "xdc_pay";
 export const METAMASK = "metamask";
 export const WALLET_CONNECT = "walletconnect";
+
+export const CONNECTION_STATE = "connection_state";

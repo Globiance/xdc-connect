@@ -1,3 +1,5 @@
+import { CONNECTION_STATE } from "./constant";
+
 export const ObjToArr = (obj) => Object.keys(obj).map((key) => obj[key]);
 
 export const FilterStructResp = (obj) =>
@@ -66,6 +68,21 @@ export const GetBrowser = () => {
     return "unknown";
   }
 };
+
+export function ClearConnectionState() {
+  localStorage.removeItem(CONNECTION_STATE);
+}
+
+export function SetConnectionState({ loader, wallet, chainId }) {
+  localStorage.setItem(
+    CONNECTION_STATE,
+    JSON.stringify({
+      loader,
+      wallet,
+      chainId,
+    })
+  );
+}
 
 Object.defineProperty(Object.prototype, "partialMatch", {
   value: function (fields) {
