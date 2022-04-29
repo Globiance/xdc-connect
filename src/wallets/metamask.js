@@ -18,6 +18,7 @@ import * as actions from "../actions";
 import store from "../redux/store";
 import { toast } from "react-toastify";
 import { FormatChainId, GetBrowser } from "../helpers/miscellaneous";
+import { IsHex } from "../helpers/math";
 
 export function IsXdc3Supported() {
   return Boolean(window.ethereum);
@@ -187,38 +188,59 @@ export async function initMetamask(chainId = DEFAULT_CHAIN_ID) {
 }
 
 export function SendTransaction(tx) {
-  if (tx.value) {
-    tx.value = Xdc3.utils.toHex(tx.value);
-  }
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = store.getState();
+      const { gasMultiplier = 1 } = data.wallet;
 
-  if (tx.gas) {
-    tx.gas = Xdc3.utils.toHex(tx.gas);
-  }
+      if (tx.value) {
+        tx.value = Xdc3.utils.toHex(tx.value);
+      }
 
-  if (tx.gasPrice) {
-    tx.gasPrice = Xdc3.utils.toHex(tx.gasPrice);
-  }
+      if (tx.gas) {
+        tx.gas = Xdc3.utils.toHex(tx.gas);
+      }
 
-  if (tx.from) {
-    tx.from = Xdc3.utils.fromXdcAddress(tx.from);
-  }
+      if (tx.gasPrice) {
+        tx.gasPrice = Xdc3.utils.toHex(tx.gasPrice);
+      } else {
+        const provider = await GetProvider();
+        const xdc3 = new Xdc3(provider);
+        let gasPrice = await xdc3.eth.getGasPrice();
+        if (IsHex(gasPrice)) {
+          gasPrice = parseInt(gasPrice, 16);
+        } else {
+          gasPrice = parseInt(gasPrice);
+        }
 
-  if (tx.to) {
-    tx.to = Xdc3.utils.fromXdcAddress(tx.to);
-  }
+        gasPrice = parseFloat(gasMultiplier) * parseFloat(gasPrice);
 
-  return new Promise((resolve, reject) => {
-    window.ethereum
-      .request({
-        method: "eth_sendTransaction",
-        params: [tx],
-      })
-      .then((hash) => {
-        resolve({ transactionHash: hash });
-      })
-      .catch((e) => {
-        reject(e);
-      });
+        tx.gasPrice = Xdc3.utils.toHex(gasPrice);
+      }
+
+      if (tx.from) {
+        tx.from = Xdc3.utils.fromXdcAddress(tx.from);
+      }
+
+      if (tx.to) {
+        tx.to = Xdc3.utils.fromXdcAddress(tx.to);
+      }
+
+      window.ethereum
+        .request({
+          method: "eth_sendTransaction",
+          params: [tx],
+        })
+        .then((hash) => {
+          resolve({ transactionHash: hash });
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
   });
 }
 
