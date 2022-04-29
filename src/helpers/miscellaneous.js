@@ -1,4 +1,5 @@
 import { CONNECTION_STATE } from "./constant";
+import { IsHex } from "./math";
 
 export const ObjToArr = (obj) => Object.keys(obj).map((key) => obj[key]);
 
@@ -83,6 +84,43 @@ export function SetConnectionState({ loader, wallet, chainId }) {
     })
   );
 }
+
+export function SetConnectionStateChainId({ chainId }) {
+  let existing = localStorage.getItem(CONNECTION_STATE);
+
+  if (!existing) return;
+  existing = JSON.parse(existing);
+
+  localStorage.setItem(
+    CONNECTION_STATE,
+    JSON.stringify({
+      ...existing,
+      chainId,
+    })
+  );
+}
+
+export function SetConnectionStateAddress({ wallet }) {
+  let existing = localStorage.getItem(CONNECTION_STATE);
+  if (!existing) return;
+  existing = JSON.parse(existing);
+  localStorage.setItem(
+    CONNECTION_STATE,
+    JSON.stringify({
+      ...existing,
+      wallet,
+    })
+  );
+}
+
+export const FormatChainId = (chain_id) => {
+  chain_id = `${chain_id}`;
+
+  if (String(chain_id).startsWith("0x") && IsHex(chain_id))
+    chain_id = parseInt(chain_id, 16);
+
+  return parseInt(chain_id);
+};
 
 Object.defineProperty(Object.prototype, "partialMatch", {
   value: function (fields) {

@@ -31,16 +31,9 @@ export const RemoveMultiplier = (amount) => {
 
   return parseFloat(amount) / multiplier;
 };
-
-export const IsHex = (n) => {
-  const re = /[0-9A-Fa-f]{6}/g;
-
-  if (re.test(n)) {
-    return true;
-  } else {
-    return false;
-  }
-};
+export function IsHex(num) {
+  return Boolean(num.match(/^0x[0-9a-f]+$/i));
+}
 
 /* eslint-disable no-useless-escape */
 

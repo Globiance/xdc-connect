@@ -17,7 +17,7 @@ import {
 import * as actions from "../actions";
 import store from "../redux/store";
 import { toast } from "react-toastify";
-import { GetBrowser } from "../helpers/miscellaneous";
+import { FormatChainId, GetBrowser } from "../helpers/miscellaneous";
 
 export function IsXdc3Supported() {
   return Boolean(window.ethereum);
@@ -38,7 +38,7 @@ export const ApothemProvider = () => {
 
 export async function GetChainId() {
   const chainId = await window.ethereum.request({ method: "eth_chainId" });
-  return parseInt(chainId);
+  return FormatChainId(chainId);
 }
 
 export async function initMetamask(chainId = DEFAULT_CHAIN_ID) {
@@ -102,7 +102,7 @@ export async function initMetamask(chainId = DEFAULT_CHAIN_ID) {
             });
           }
 
-          const chain_id = parseInt(
+          const chain_id = FormatChainId(
             await window.ethereum.request({
               method: "eth_chainId",
             })
@@ -144,12 +144,13 @@ export async function initMetamask(chainId = DEFAULT_CHAIN_ID) {
     });
 
     window.ethereum.on("chainChanged", async (chainId) => {
-      store.dispatch(actions.NetworkChanged(parseInt(chainId)));
+      chainId = FormatChainId(chainId);
+      store.dispatch(actions.NetworkChanged(chainId));
     });
 
-    window.ethereum.on("connect", async (chainIdHex) => {
+    window.ethereum.on("connect", async ({ chainId: chainIdHex }) => {
       try {
-        const chain_id = parseInt(chainIdHex);
+        const chain_id = FormatChainId(chainIdHex);
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
@@ -261,8 +262,8 @@ async function switchToXdc(chainId = "0x32") {
           params: [
             {
               chainId,
-              chainName: NETWORK_NAME[parseInt(chainId)],
-              rpcUrls: [HTTP_PROVIDER[parseInt(chainId)]] /* ... */,
+              chainName: NETWORK_NAME[FormatChainId(chainId)],
+              rpcUrls: [HTTP_PROVIDER[FormatChainId(chainId)]] /* ... */,
             },
           ],
         });
