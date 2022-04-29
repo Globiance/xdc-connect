@@ -199,6 +199,14 @@ export function SendTransaction(tx) {
     tx.gasPrice = Xdc3.utils.toHex(tx.gasPrice);
   }
 
+  if (tx.from) {
+    tx.from = Xdc3.utils.fromXdcAddress(tx.from);
+  }
+
+  if (tx.to) {
+    tx.to = Xdc3.utils.fromXdcAddress(tx.to);
+  }
+
   return new Promise((resolve, reject) => {
     window.ethereum
       .request({
@@ -215,6 +223,14 @@ export function SendTransaction(tx) {
 }
 
 export function CallTransaction(tx) {
+  if (tx.from) {
+    tx.from = Xdc3.utils.fromXdcAddress(tx.from);
+  }
+
+  if (tx.to) {
+    tx.to = Xdc3.utils.fromXdcAddress(tx.to);
+  }
+
   return new Promise((resolve, reject) => {
     window.ethereum
       .request({

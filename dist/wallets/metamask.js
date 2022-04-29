@@ -408,6 +408,14 @@ function SendTransaction(tx) {
     tx.gasPrice = _xdc.default.utils.toHex(tx.gasPrice);
   }
 
+  if (tx.from) {
+    tx.from = _xdc.default.utils.fromXdcAddress(tx.from);
+  }
+
+  if (tx.to) {
+    tx.to = _xdc.default.utils.fromXdcAddress(tx.to);
+  }
+
   return new Promise(function (resolve, reject) {
     window.ethereum.request({
       method: "eth_sendTransaction",
@@ -423,6 +431,14 @@ function SendTransaction(tx) {
 }
 
 function CallTransaction(tx) {
+  if (tx.from) {
+    tx.from = _xdc.default.utils.fromXdcAddress(tx.from);
+  }
+
+  if (tx.to) {
+    tx.to = _xdc.default.utils.fromXdcAddress(tx.to);
+  }
+
   return new Promise(function (resolve, reject) {
     window.ethereum.request({
       method: "eth_call",

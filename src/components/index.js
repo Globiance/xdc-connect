@@ -48,7 +48,7 @@ XdcConnect.propTypes = {
   rpcProvider: PropTypes.string,
   wsProvider: PropTypes.string,
   gasMultiplier: PropTypes.number,
-  termsOfService:PropTypes.any
+  termsOfService: PropTypes.any,
 };
 
 XdcConnect.defaultProps = {
@@ -101,4 +101,8 @@ export const _initListerner = () => {
 
 export const removeEthereumListener = () => {
   Xinpay.removeEthereumListener();
+};
+
+export const SyncConnectionState = (chainId) => {
+  Wallet.SyncConnectionState(chainId);
 };

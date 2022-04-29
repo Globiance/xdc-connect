@@ -31,7 +31,8 @@ export type ValidProvider =
   | "keystore"
   | "privatekey"
   | "dcent-inapp"
-  | "wallet-connect";
+  | "wallet-connect"
+  | "metamask";
 
 export type DisplayType = "grid" | "row";
 
@@ -54,7 +55,7 @@ export interface WalletConnectProps {
   rpcProvider?: string;
   wsProvider?: string;
   gasMultiplier?: number;
-  termsOfService?:any;
+  termsOfService?: any;
 }
 
 export class XdcConnect extends React.Component<WalletConnectProps, any> {}
@@ -134,3 +135,11 @@ export function _initListerner(): void;
  *
  */
 export function removeEthereumEventListener(): any;
+
+/**
+ *
+ * API to sync connection state from localStorage
+ *
+ * @param chainId - default chain id to use for switch on init
+ */
+export function SyncConnectionState(chainId: number): void;

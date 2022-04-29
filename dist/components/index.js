@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeEthereumListener = exports._initListerner = exports.XdcConnect = exports.SetGasMultiplier = exports.SendTransaction = exports.GetWallet = exports.GetNativeBalance = exports.ForceShowModal = exports.ForceCloseModal = exports.Disconnect = exports.CheckWalletConnection = exports.CallTransaction = void 0;
+exports.removeEthereumListener = exports._initListerner = exports.XdcConnect = exports.SyncConnectionState = exports.SetGasMultiplier = exports.SendTransaction = exports.GetWallet = exports.GetNativeBalance = exports.ForceShowModal = exports.ForceCloseModal = exports.Disconnect = exports.CheckWalletConnection = exports.CallTransaction = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -146,3 +146,9 @@ var removeEthereumListener = function removeEthereumListener() {
 };
 
 exports.removeEthereumListener = removeEthereumListener;
+
+var SyncConnectionState = function SyncConnectionState(chainId) {
+  Wallet.SyncConnectionState(chainId);
+};
+
+exports.SyncConnectionState = SyncConnectionState;
