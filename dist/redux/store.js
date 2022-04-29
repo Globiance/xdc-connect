@@ -15,6 +15,8 @@ var _reducers = _interopRequireDefault(require("./reducers"));
 
 var _networkValidator = require("../middleware/networkValidator");
 
+var _localConnectionState = require("../middleware/localConnectionState");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -23,7 +25,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var middlewares = (0, _redux.applyMiddleware)(_reduxThunk.default, _reduxLogger.default, _networkValidator.NetworkValidation);
+var middlewares = (0, _redux.applyMiddleware)(_reduxThunk.default, _reduxLogger.default, _networkValidator.NetworkValidation, _localConnectionState.LocalConnectionState);
 
 var configureStore = function configureStore() {
   return (0, _redux.createStore)((0, _redux.combineReducers)(_objectSpread({}, _reducers.default)), {}, middlewares);

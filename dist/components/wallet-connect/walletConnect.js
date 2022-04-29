@@ -21,9 +21,13 @@ var _PrivateKey = _interopRequireDefault(require("./PrivateKey"));
 
 var _xinpay = require("../../wallets/xinpay");
 
+var _metamask = require("../../wallets/metamask");
+
 var _walletConnect = require("../../wallets/walletConnect");
 
 var _dcentInAppBrowser = require("../../wallets/dcentInAppBrowser");
+
+var _metamaskLogo = _interopRequireDefault(require("../../assets/img/wallets/metamask-logo.png"));
 
 var _xinpayLogo = _interopRequireDefault(require("../../assets/img/wallets/xinpay-logo.png"));
 
@@ -187,6 +191,23 @@ var WalletConnect = /*#__PURE__*/function (_React$Component) {
                 className: "wallet-icon",
                 children: /*#__PURE__*/(0, _jsxRuntime.jsx)("img", {
                   src: _xinpayLogo.default,
+                  alt: "Icon"
+                })
+              })]
+            }) : "", this.enabledProviders.includes(_constant.LOADERS.Metamask) ? /*#__PURE__*/(0, _jsxRuntime.jsxs)("button", {
+              onClick: function onClick() {
+                return (0, _metamask.initMetamask)(_this2.defaultChainId);
+              },
+              className: "wallect-connect-btn",
+              children: [/*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+                className: "wallet-name",
+                children: /*#__PURE__*/(0, _jsxRuntime.jsx)("h4", {
+                  children: "Metamask"
+                })
+              }), /*#__PURE__*/(0, _jsxRuntime.jsx)("div", {
+                className: "wallet-icon",
+                children: /*#__PURE__*/(0, _jsxRuntime.jsx)("img", {
+                  src: _metamaskLogo.default,
                   alt: "Icon"
                 })
               })]

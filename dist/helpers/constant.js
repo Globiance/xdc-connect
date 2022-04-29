@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.XDC_PAY = exports.WALLET_CONNECT = exports.VALID_CHAINS = exports.NETWORK_NAME = exports.LOADERS = exports.HTTP_PROVIDER = exports.EXPLORER = exports.DEFAULT_PROVIDER = exports.DEFAULT_CHAIN_ID = exports.CHAIN_DATA = void 0;
+exports.XDC_PAY = exports.WALLET_CONNECT = exports.VALID_CHAINS = exports.NETWORK_NAME = exports.METAMASK = exports.LOADERS = exports.HTTP_PROVIDER = exports.EXPLORER = exports.DEFAULT_PROVIDER = exports.DEFAULT_CHAIN_ID = exports.CONNECTION_STATE = exports.CHAIN_DATA = void 0;
 var LOADERS = {
   Xinpay: "xinpay",
   Keystore: "keystore",
   Privatekey: "privatekey",
-  MetaMask: "metamask",
+  Metamask: "metamask",
   DcentInApp: "dcent-inapp",
   WalletConnect: "wallet-connect"
 };
 exports.LOADERS = LOADERS;
-var VALID_CHAINS = [1, 4, 421611, 137, 80001, 50, 51, 551];
+var VALID_CHAINS = [50, 51, 551];
 exports.VALID_CHAINS = VALID_CHAINS;
 var NETWORK_NAME = {
   1: "",
@@ -49,5 +49,9 @@ var EXPLORER = CHAIN_DATA[DEFAULT_CHAIN_ID];
 exports.EXPLORER = EXPLORER;
 var XDC_PAY = "xdc_pay";
 exports.XDC_PAY = XDC_PAY;
+var METAMASK = "metamask";
+exports.METAMASK = METAMASK;
 var WALLET_CONNECT = "walletconnect";
 exports.WALLET_CONNECT = WALLET_CONNECT;
+var CONNECTION_STATE = "connection_state";
+exports.CONNECTION_STATE = CONNECTION_STATE;

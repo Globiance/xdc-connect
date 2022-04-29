@@ -11,7 +11,6 @@ exports.GetProvider = GetProvider;
 exports.IsWalletConnectSupported = IsWalletConnectSupported;
 exports.SendTransaction = SendTransaction;
 exports._initListerner = _initListerner;
-exports.checkConnection = checkConnection;
 exports.initWalletConnect = initWalletConnect;
 
 var _xdc = _interopRequireDefault(require("xdc3"));
@@ -215,7 +214,7 @@ function _initListerner() {
         accounts = _payload$params$.accounts,
         chainId = _payload$params$.chainId;
     addresses = accounts;
-    localStorage.removeItem(_constant.XDC_PAY);
+    (0, _miscellaneous.ClearConnectionState)();
     return _store.default.dispatch(actions.WalletConnected({
       address: accounts[0],
       chain_id: chainId,
@@ -243,7 +242,8 @@ function _initListerner() {
       throw error;
     }
 
-    return _store.default.dispatch(actions.WalletDisconnected()); // Delete connector
+    (0, _miscellaneous.ClearConnectionState)();
+    return _store.default.dispatch(actions.WalletDisconnected());
   });
   window.ethereum.on("message", function (data) {
     console.log("message", data);
@@ -313,9 +313,7 @@ function _SendTransaction() {
                             console.error(error);
                           }
 
-                          ;
-
-                        case 2:
+                        case 1:
                         case "end":
                           return _context5.stop();
                       }
@@ -358,6 +356,9 @@ function _Disconnect() {
             return connector.killSession();
 
           case 3:
+            (0, _miscellaneous.ClearConnectionState)();
+
+          case 4:
           case "end":
             return _context7.stop();
         }
@@ -366,9 +367,3 @@ function _Disconnect() {
   }));
   return _Disconnect.apply(this, arguments);
 }
-
-function checkConnection() {
-  console.log("Connector: ", connector);
-}
-
-;

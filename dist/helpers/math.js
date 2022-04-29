@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ToDoubleDigit = exports.RemoveMultiplier = exports.RemoveExpo = exports.RandomInt = exports.Random = exports.MinOf = exports.MaxOf = exports.IsHex = exports.AddMultiplier = void 0;
+exports.AddMultiplier = void 0;
+exports.IsHex = IsHex;
+exports.ToDoubleDigit = exports.RemoveMultiplier = exports.RemoveExpo = exports.RandomInt = exports.Random = exports.MinOf = exports.MaxOf = void 0;
 
 var MinOf = function MinOf(x, y) {
   return parseFloat(x) < parseFloat(y) ? parseFloat(x) : parseFloat(y);
@@ -51,19 +53,11 @@ var RemoveMultiplier = function RemoveMultiplier(amount) {
 
 exports.RemoveMultiplier = RemoveMultiplier;
 
-var IsHex = function IsHex(n) {
-  var re = /[0-9A-Fa-f]{6}/g;
-
-  if (re.test(n)) {
-    return true;
-  } else {
-    return false;
-  }
-};
+function IsHex(num) {
+  return Boolean(num.match(/^0x[0-9a-f]+$/i));
+}
 /* eslint-disable no-useless-escape */
 
-
-exports.IsHex = IsHex;
 
 var RemoveExpo = function RemoveExpo(x) {
   var data = String(x).split(/[eE]/);

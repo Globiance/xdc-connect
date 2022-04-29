@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Disconnect = exports.CallTransaction = void 0;
 exports.GetNativeBalance = GetNativeBalance;
-exports.SendTransaction = void 0;
+exports.SyncConnectionState = exports.SendTransaction = void 0;
 
 var _xdc = _interopRequireDefault(require("xdc3"));
 
@@ -20,6 +20,8 @@ var account = _interopRequireWildcard(require("./account"));
 var dcentInApp = _interopRequireWildcard(require("./dcentInAppBrowser"));
 
 var walletConnect = _interopRequireWildcard(require("./walletConnect"));
+
+var metamask = _interopRequireWildcard(require("./metamask"));
 
 var _store = _interopRequireDefault(require("../redux/store"));
 
@@ -51,6 +53,9 @@ function GetFuncFromLoader(loader) {
 
     case _constant.LOADERS.WalletConnect:
       return walletConnect;
+
+    case _constant.LOADERS.Metamask:
+      return metamask;
 
     default:
       return xinpay;
@@ -165,12 +170,29 @@ var CallTransaction = function CallTransaction(tx) {
 exports.CallTransaction = CallTransaction;
 
 var Disconnect = function Disconnect() {
-  localStorage.removeItem(_constant.XDC_PAY);
-  xinpay.Disconnect();
-
   var loader = _store.default.getState().wallet.loader;
 
   return GetFuncFromLoader(loader).Disconnect();
 };
 
 exports.Disconnect = Disconnect;
+
+var SyncConnectionState = function SyncConnectionState() {
+  var chainId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 50;
+
+  try {
+    var state = localStorage.getItem(_constant.CONNECTION_STATE);
+
+    if (!state) {
+      return;
+    }
+
+    var stateObj = JSON.parse(state);
+    if (stateObj.loader === _constant.LOADERS.Xinpay) xinpay.initXdc3();
+    if (stateObj.loader === _constant.LOADERS.Metamask) metamask.initMetamask(chainId);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.SyncConnectionState = SyncConnectionState;

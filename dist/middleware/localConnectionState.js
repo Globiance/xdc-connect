@@ -5,17 +5,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NetworkValidation = void 0;
+exports.LocalConnectionState = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
 var types = _interopRequireWildcard(require("../actions/types"));
-
-var actions = _interopRequireWildcard(require("../actions"));
-
-var _constant = require("../helpers/constant");
-
-var _math = require("../helpers/math");
 
 var _miscellaneous = require("../helpers/miscellaneous");
 
@@ -25,42 +19,46 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NetworkValidation = function NetworkValidation(store) {
+var LocalConnectionState = function LocalConnectionState(store) {
   return function (next) {
     return function (action) {
-      next(action);
+      if (action.type === types.WALLET_CONNECTED) {
+        var _action$payload = action.payload,
+            wallet = _action$payload.address,
+            chain_id = _action$payload.chain_id,
+            loader = _action$payload.loader;
+        (0, _miscellaneous.SetConnectionState)({
+          wallet: wallet,
+          loader: loader,
+          chainId: chain_id
+        });
+      }
 
-      if (types.WALLET_CONNECTED === action.type) {
-        var address = action.payload.address;
-        if (_lodash.default.isUndefined(address)) store.dispatch(actions.WalletDisconnected());else {
-          var chain_id = action.payload.chain_id;
-
-          if (!_lodash.default.isUndefined(chain_id)) {
-            chain_id = (0, _miscellaneous.FormatChainId)(chain_id);
-
-            if (_constant.VALID_CHAINS.includes(chain_id)) {
-              store.dispatch(actions.NetworkValid());
-            } else {
-              console.log("invalid network");
-              store.dispatch(actions.NetworkInValid());
-            }
-          }
-        }
+      if (action.type === types.WALLET_DISCONNECTED) {
+        (0, _miscellaneous.ClearConnectionState)();
       }
 
       if (action.type === types.WALLET_CHAIN_CHANGED) {
         var _chain_id = action.payload.chain_id;
         _chain_id = (0, _miscellaneous.FormatChainId)(_chain_id);
+        (0, _miscellaneous.SetConnectionStateChainId)({
+          chainId: _chain_id
+        });
+      }
 
-        if (_constant.VALID_CHAINS.includes(_chain_id)) {
-          store.dispatch(actions.NetworkValid());
-        } else {
-          console.log("invalid network");
-          store.dispatch(actions.NetworkInValid());
+      if (action.type === types.WALLET_ADDRESS_CHANGED) {
+        var address = action.payload.address;
+
+        if (!_lodash.default.isUndefined(address)) {
+          (0, _miscellaneous.SetConnectionStateAddress)({
+            wallet: address
+          });
         }
       }
+
+      next(action);
     };
   };
 };
 
-exports.NetworkValidation = NetworkValidation;
+exports.LocalConnectionState = LocalConnectionState;
