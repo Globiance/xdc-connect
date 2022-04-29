@@ -131,12 +131,6 @@ export function CheckWalletConnection(): boolean;
 export function _initListerner(): void;
 
 /**
- * API to remove Ethereum event listener
- *
- */
-export function removeEthereumEventListener(): any;
-
-/**
  *
  * API to sync connection state from localStorage
  *
