@@ -27,6 +27,11 @@ export const NetworkValidation = (store) => (next) => (action) => {
     }
   }
 
+  if (types.WALLET_ADDRESS_CHANGED === action.type) {
+    const { address } = action.payload;
+    if (_.isUndefined(address)) store.dispatch(actions.WalletDisconnected());
+  }
+
   if (action.type === types.WALLET_CHAIN_CHANGED) {
     let { chain_id } = action.payload;
 

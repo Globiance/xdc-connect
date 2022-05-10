@@ -351,11 +351,21 @@ function _initListerner() {
 
             case 5:
               console.log("accounts", accounts);
+
+              if (!(!accounts || accounts.length === 0)) {
+                _context.next = 9;
+                break;
+              }
+
+              console.log("no accounts connected");
+              return _context.abrupt("return", _store.default.dispatch(actions.WalletDisconnected()));
+
+            case 9:
               addresses = accounts;
 
               _store.default.dispatch(actions.AccountChanged(accounts[0]));
 
-            case 8:
+            case 11:
             case "end":
               return _context.stop();
           }

@@ -175,6 +175,10 @@ export function _initListerner() {
       const accounts = await xdc3.eth.getAccounts();
       if (_.isEqual(accounts, addresses)) return;
       console.log("accounts", accounts);
+      if (!accounts || accounts.length === 0) {
+        console.log("no accounts connected");
+        return store.dispatch(actions.WalletDisconnected());
+      }
       addresses = accounts;
       store.dispatch(actions.AccountChanged(accounts[0]));
     }, 1000);

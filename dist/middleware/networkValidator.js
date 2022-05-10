@@ -48,6 +48,11 @@ var NetworkValidation = function NetworkValidation(store) {
         }
       }
 
+      if (types.WALLET_ADDRESS_CHANGED === action.type) {
+        var _address = action.payload.address;
+        if (_lodash.default.isUndefined(_address)) store.dispatch(actions.WalletDisconnected());
+      }
+
       if (action.type === types.WALLET_CHAIN_CHANGED) {
         var _chain_id = action.payload.chain_id;
         _chain_id = (0, _miscellaneous.FormatChainId)(_chain_id);
